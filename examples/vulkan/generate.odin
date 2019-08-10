@@ -75,7 +75,7 @@ macro_define_handle :: proc(data : ^bindgen.ParserData) {
     append(&data.nodes.structDefinitions, structNode);
 
     sourceType : bindgen.IdentifierType;
-    sourceType.name = append("^", structName);
+    sourceType.name = structName;
 
     typedefNode : bindgen.TypedefNode;
     typedefNode.name = object;
