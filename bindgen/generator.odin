@@ -25,6 +25,7 @@ GeneratorOptions :: struct {
     pseudoTypePostfixes : []string,
     pseudoTypeTransparentPostfixes : []string,
     pseudoTypeCase : Case,
+    pseudoTypeNoPacking : bool,
 
     // Functions
     functionPrefixes : []string,
@@ -101,7 +102,7 @@ generate :: proc(
     export_defines(&data);
     export_typedefs(&data);
     export_enums(&data);
-    export_structs(&data);
+    export_structs(&data, option.pseudoTypeNoPacking);
     export_unions(&data);
 
     // Foreign block for functions
