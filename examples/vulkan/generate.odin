@@ -5,6 +5,7 @@
 package main
 
 import "core:fmt"
+import "core:strings"
 
 import "../../bindgen"
 
@@ -19,7 +20,8 @@ main :: proc() {
     // enum, struct, unions. In vulkan.h, they are all prefixed
     // with Vk, we remove that.
     options.pseudoTypePrefixes = []string{"Vk", "vk"};
-    options.pseudoTypeTransparentPrefixes = []string{"PFN_"};
+    // pointer prefix "^" is used in the VK_DEFINE_HANDLE macro
+    options.pseudoTypeTransparentPrefixes = []string{"PFN_", "^"};
 
     // In the C header, functions look like vkCreateInstance(), we remove the prefix.
     options.functionPrefixes = []string{"vk"};
@@ -75,7 +77,7 @@ macro_define_handle :: proc(data : ^bindgen.ParserData) {
     append(&data.nodes.structDefinitions, structNode);
 
     sourceType : bindgen.IdentifierType;
-    sourceType.name = append("^", structName);
+    sourceType.name = strings.concatenate([]string{"^", structNode.name});
 
     typedefNode : bindgen.TypedefNode;
     typedefNode.name = object;

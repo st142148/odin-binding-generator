@@ -84,6 +84,7 @@ generate :: proc(
     fmt.fprint(data.handle, "import _c \"core:c\"\n");
     fmt.fprint(data.handle, "\n");
 
+    // Preface
     fmt.fprint(data.handle, options.preface, "\n");
 
     // Parsing header files
@@ -108,7 +109,7 @@ generate :: proc(
     export_defines(&data);
     export_typedefs(&data);
     export_enums(&data);
-    export_structs(&data, option.pseudoTypeNoPacking);
+    export_structs(&data, options.pseudoTypeNoPacking);
     export_unions(&data);
 
     // Foreign block for functions
@@ -119,10 +120,10 @@ generate :: proc(
 
     export_functions(&data);
 
-
-    fmt.fprint(data.handle, options.postcript, "\n");
-
     fmt.fprint(data.handle, "}\n");
+    
+    // Postscript
+    fmt.fprint(data.handle, options.postscript, "\n");
 }
 
 // system:foo.lib -> foo
