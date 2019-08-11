@@ -43,6 +43,10 @@ GeneratorOptions :: struct {
     enumValueNameRemove : bool,
     enumValueNameRemovePostfixes : []string,
 
+    // Preface, Postscript
+    preface : string,
+    postscript : string,
+
     parserOptions : ParserOptions,
 }
 
@@ -80,6 +84,8 @@ generate :: proc(
     fmt.fprint(data.handle, "import _c \"core:c\"\n");
     fmt.fprint(data.handle, "\n");
 
+    fmt.fprint(data.handle, options.preface, "\n");
+
     // Parsing header files
     for headerFile in headerFiles {
         bytes, ok := os.read_entire_file(headerFile);
@@ -112,6 +118,9 @@ generate :: proc(
     fmt.fprint(data.handle, "\n");
 
     export_functions(&data);
+
+
+    fmt.fprint(data.handle, options.postcript, "\n");
 
     fmt.fprint(data.handle, "}\n");
 }
